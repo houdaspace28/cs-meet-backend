@@ -1,8 +1,9 @@
 import express from 'express'
 import cors from 'cors'
 import morgan from 'morgan'
-import {createNewUser,loginUser,protect} from './modules/auth'
-import userRouter from './routers/userRouter'
+import {protect} from './modules/auth.js'
+import {createNewUser,login} from './handlers/authHandlers.js'
+import userRouter from './routers/userRouter.js'
 
 const app  = express()
 
@@ -12,8 +13,8 @@ app.use(express.urlencoded({extended: true}))
 app.use(morgan('dev'))
 
 
-app.use('/sigup',createNewUser)
-app.use('/login',loginUser)
+app.use('/signup',createNewUser)
+app.use('/login',login)
 app.use('/user',protect,userRouter)
 
 
