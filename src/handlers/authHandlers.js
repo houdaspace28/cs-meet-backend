@@ -22,7 +22,7 @@ export const createNewUser = async (req,res) =>{
         })
         
         const token = createJwtToken(user)
-        res.status(201).send({token})
+        res.status(201).send({ user, token });
     }catch(e){
         console.log(e)
         res.status(500).send({ message: 'Internal server error' });
@@ -51,7 +51,12 @@ export const login = async (req,res) => {
         }
 
         const token = createJwtToken(user)
-        res.send({token})
+        const sentUser = {
+            id: user.id,
+            username: user.username,
+            email: user.email
+        }
+        res.send({token, user: sentUser})
         
     }catch(e){
         console.log(e)

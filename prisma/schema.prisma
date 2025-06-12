@@ -30,10 +30,12 @@ model Project {
   id        String   @id @default(uuid())
   title     String
   field     String
-  stack     String[]
+  tags     String[]
+  description String
+  githubLink String
   belongsTo User     @relation(fields: [userId], references: [id])
   userId    String
-  picture   String
+  picture   String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -41,10 +43,12 @@ model Project {
 model Blog {
   id        String   @id @default(uuid())
   title     String
-  type      String
-  description String
+  field     String
+  excerpt   String
+  tags      String[]
   content   String
-  picture   String
+  readTime  Int
+  picture   String?
   createdAt DateTime @default(now())
   belongsTo User     @relation(fields: [userId], references: [id])
   userId    String
@@ -54,20 +58,17 @@ model Pathway {
     id        String   @id @default(uuid())
     title     String
     description String
+    level     String
     duration  String
+    modules   Module[]
     createdAt DateTime @default(now())
-    steps     Step[]
 }
 
-model Step {
-    id        String   @id @default(uuid())
+model Module {
+    id        Int   @id @default(autoincrement())
     title     String
     description String
     createdAt DateTime @default(now())
-    order     Int
-    duration  String
-    visualLinks String[]
-    readingLinks String[]
     belongsTo Pathway @relation(fields: [pathwayId], references: [id])
     pathwayId String
 }
