@@ -16,7 +16,8 @@ export const getBlogsBySearch = async (req, res) => {
       where: {
         OR: [
           { title: { contains: searchquery, mode: 'insensitive' } },
-          { description: { contains: searchquery, mode: 'insensitive' } }
+          { excerpt: { contains: searchquery, mode: 'insensitive' } },
+          { content: { contains: searchquery, mode: 'insensitive' } }
         ]
       }
     });

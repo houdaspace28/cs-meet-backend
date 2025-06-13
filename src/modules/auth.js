@@ -22,6 +22,7 @@ export const protect = async (req,res,next) =>{
    if(!bearer){
     res.status(401)
     res.send({message: 'Unauthorized'})
+    console.log('Unauthorized')
     return 
    }
 
@@ -30,6 +31,7 @@ export const protect = async (req,res,next) =>{
    if(!token){
      res.status(401)
      res.send({message: 'Unauthorized'})
+     console.log('Unauthorized')
    }
 
    try{
@@ -40,6 +42,7 @@ export const protect = async (req,res,next) =>{
     console.log(e)
     res.status(401)
     res.send({message:'Invalid token'})
+    console.log('Invalid token')
     return
    }
 }

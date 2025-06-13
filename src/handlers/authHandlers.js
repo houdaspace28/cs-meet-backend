@@ -64,3 +64,12 @@ export const login = async (req,res) => {
     }
 }
 
+export const getCurrentUser = async (req,res) => {
+    try{
+        const user = req.user
+        res.send(user)
+    }catch(e){
+        console.log(e)
+        res.status(500).send({ message: 'Internal server error' });
+    }
+}

@@ -73,19 +73,36 @@ export const getUserProjects = async (req, res) => {
 // Create project (protected)
 export const createProject = async (req, res) => {
     try {
-        const { title, field, stack, picture } = req.body;
+        const { title, field, description, tags, picture, githubLink } = req.body;
+        
+        
+        if (!title || !field || !description || !tags) {
+            return res.status(400).json({ 
+                message: "Missing required fields. Title, field, description, and tags are required." 
+            });
+        }
+
+        
+        const tagsArray = Array.isArray(tags) ? tags : tags.split(',').map(tag => tag.trim());
+
         const project = await prisma.project.create({
             data: {
                 title,
                 field,
-                stack,
-                picture,
+                description,
+                tags: tagsArray,
+                picture: picture || "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?w=400&h=200&fit=crop",
+                githubLink,
                 userId: req.user.id
             }
         });
         res.status(201).json(project);
     } catch (error) {
-        res.status(500).json({ message: "Error creating project" });
+        console.error("Error creating project:", error);
+        res.status(500).json({ 
+            message: "Error creating project",
+            error: process.env.NODE_ENV === 'development' ? error.message : undefined 
+        });
     }
 };
 

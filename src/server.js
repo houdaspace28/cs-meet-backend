@@ -2,7 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import morgan from 'morgan'
 import {protect} from './modules/auth.js'
-import {createNewUser,login} from './handlers/authHandlers.js'
+import {createNewUser,login,getCurrentUser} from './handlers/authHandlers.js'
 import projectsRouter from './routers/projectsRouter.js'
 import blogsRouter from './routers/blogsRouter.js'
 
@@ -17,6 +17,7 @@ app.use(morgan('dev'))
 app.use('/signup',createNewUser)
 app.use('/login',login)
 app.use('/projects', projectsRouter)
+app.use('/me',getCurrentUser)
 app.use('/blogs', blogsRouter)
 
 
