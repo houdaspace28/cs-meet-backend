@@ -18,8 +18,10 @@ blogsRouter.get("/search/:searchquery", getBlogsBySearch);
 blogsRouter.get("/field/:field", getBlogsByField);
 blogsRouter.get("/:id", getBlogById);        
 
+blogsRouter.get("/me", protect, getUserBlogs);
+blogsRouter.post("/", createBlog);
 
-   
+
 blogsRouter.delete("/:id", protect, deleteBlog);  
 
 export default blogsRouter;

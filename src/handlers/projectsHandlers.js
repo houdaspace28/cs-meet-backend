@@ -73,7 +73,7 @@ export const getUserProjects = async (req, res) => {
 // Create project (protected)
 export const createProject = async (req, res) => {
     try {
-        const { title, field, description, tags, picture, githubLink } = req.body;
+        const { title, field, description, tags, picture, githubLink ,userId} = req.body;
         
         
         if (!title || !field || !description || !tags) {
@@ -93,7 +93,7 @@ export const createProject = async (req, res) => {
                 tags: tagsArray,
                 picture: picture || "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?w=400&h=200&fit=crop",
                 githubLink,
-                userId: req.user.id
+                userId: userId
             }
         });
         res.status(201).json(project);

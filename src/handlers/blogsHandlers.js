@@ -73,19 +73,24 @@ export const getUserBlogs = async (req, res) => {
 
 // Create project (protected)
 export const createBlog = async (req, res) => {
+    console.log(req.body);
     try {
-        const { title, field, stack, picture } = req.body;
+        const { title, field, excerpt, readTime, tags, picture, content, userId } = req.body;
         const blog = await prisma.blog.create({
             data: {
                 title,
                 field,
-                stack,
+                excerpt,
+                readTime,
+                tags,
                 picture,
-                userId: req.user.id
+                content,
+                userId
             }
         });
         res.status(201).json(blog);
     } catch (error) {
+        console.error(error);
         res.status(500).json({ message: "Error creating blog" });
     }
 };

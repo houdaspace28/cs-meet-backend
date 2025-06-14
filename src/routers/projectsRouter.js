@@ -17,8 +17,8 @@ projectsRouter.get("/search/:searchquery", getProjectsBySearch);
 projectsRouter.get("/field/:field", getProjectsByField);
 projectsRouter.get("/:id", getProjectById);        
 
-projectsRouter.get("/me", protect);
-projectsRouter.post("/", protect);       
+projectsRouter.get("/me", protect, getUserProjects);
+projectsRouter.post("/", createProject);       
 projectsRouter.delete("/:id", protect, deleteProject);  
 
 export default projectsRouter;
