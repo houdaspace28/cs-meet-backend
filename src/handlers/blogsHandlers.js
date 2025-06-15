@@ -32,23 +32,15 @@ export const getBlogsByField = async (req, res) => {
     res.json(blogs);
 }
 
-export const getBlogById = async (req, res) => {
+export const getBlogsByUserId = async (req, res) => {
     try {
-        const blog = await prisma.blog.findUnique({
-            where: { id: req.params.id },
-            include: {
-                belongsTo: {
-                    select: {
-                        username: true,
-                        profilePic: true
-                    }
-                }
-            }
+        const blogs = await prisma.blog.findMany({
+            where: { userId: req.params.id },
         });
-        if (!blog) {
-            return res.status(404).json({ message: "Blog not found" });
+        if (!blogs || blogs.length === 0) {
+            return res.status(404).json({ message: "No blogs submitted" });
         }
-        res.json(blog);
+        res.json(blogs);
     } catch (error) {
         res.status(500).json({ message: "Error fetching blog" });
     }
@@ -100,8 +92,7 @@ export const deleteBlog = async (req, res) => {
     try {
         const blog = await prisma.blog.delete({
             where: {
-                id: req.params.id,
-                userId: req.user.id // Ensures user can only delete their own projects
+                id: req.params.blogId,
             }
         });
         res.json({ message: "Blog deleted successfully" });

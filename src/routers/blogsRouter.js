@@ -4,7 +4,7 @@ import {
     getAllBlogs,
     getBlogsBySearch,
     getBlogsByField,
-    getBlogById,
+    getBlogsByUserId,
     getUserBlogs,
     createBlog,
     deleteBlog
@@ -16,9 +16,8 @@ const blogsRouter = Router();
 blogsRouter.get("/", getAllBlogs);  
 blogsRouter.get("/search/:searchquery", getBlogsBySearch);
 blogsRouter.get("/field/:field", getBlogsByField);
-blogsRouter.get("/:id", getBlogById);        
-
-blogsRouter.get("/me", protect, getUserBlogs);
+blogsRouter.get("/:id", getBlogsByUserId);  
+blogsRouter.delete("/:blogId", deleteBlog);
 blogsRouter.post("/", createBlog);
 
 

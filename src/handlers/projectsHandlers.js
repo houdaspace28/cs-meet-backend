@@ -31,23 +31,15 @@ export const getProjectsByField = async (req, res) => {
     res.json(projects);
 }
 
-export const getProjectById = async (req, res) => {
+export const getProjectByUserId = async (req, res) => {
     try {
-        const project = await prisma.project.findUnique({
-            where: { id: req.params.id },
-            include: {
-                belongsTo: {
-                    select: {
-                        username: true,
-                        profilePic: true
-                    }
-                }
-            }
+        const projects = await prisma.project.findMany({
+            where: { userId: req.params.id },
         });
-        if (!project) {
-            return res.status(404).json({ message: "Project not found" });
+        if (!projects || projects.length === 0) {
+            return res.status(404).json({ message: "No projects submitted" });
         }
-        res.json(project);
+        res.json(projects);
     } catch (error) {
         res.status(500).json({ message: "Error fetching project" });
     }
@@ -111,8 +103,7 @@ export const deleteProject = async (req, res) => {
     try {
         const project = await prisma.project.delete({
             where: {
-                id: req.params.id,
-                userId: req.user.id // Ensures user can only delete their own projects
+                id: req.params.projectId,
             }
         });
         res.json({ message: "Project deleted successfully" });
